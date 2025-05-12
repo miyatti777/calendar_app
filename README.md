@@ -88,6 +88,7 @@ Cursorのルールファイル（例：`.cursor/rules/basic/00_master_rules.mdc`
    ```
 
 
+
 ## GCP側の作業
 
 ### 1 必要なAPIの有効化
@@ -275,4 +276,53 @@ clasp run getCalendarEventsWithParams -p '["primary", 30, "2025-01-01", ""]'
 ```bash
 clasp run getCalendarEventsWithParams -p '["primary", 30, "2025-01-01", "会議"]'
 ```
+
+## 重要: 認証情報の取り扱いに関する注意事項
+
+このアプリケーションの設定過程で、以下の認証情報ファイルが生成されます：
+
+1. **creds.json** - Google OAuthクライアントIDとシークレットを含むファイル
+2. **.clasprc.json** - claspの認証トークンを含むファイル
+
+### セキュリティ上の重要な注意点
+
+これらのファイルには機密情報が含まれており、**絶対に**以下の行為を避けてください：
+
+- GitHubなどの公開リポジトリへのプッシュ
+- チームでの共有ドライブへのアップロード
+- メールやSlackでの送信
+
+### Gitを使用する場合の設定
+
+リポジトリにこれらのファイルを含めないために、必ず**.gitignore**ファイルを作成してください：
+
+```bash
+# .gitignoreファイルを作成または編集
+echo ".clasprc.json" >> .gitignore
+echo "creds.json" >> .gitignore
+```
+
+### 誤って認証情報をコミットしてしまった場合の対処法
+
+もし誤って認証情報をコミットし、リモートリポジトリにプッシュしてしまった場合：
+
+1. **即時に認証情報を無効化する**：
+   - Google Cloud Consoleで該当するOAuthクライアントIDを削除または再生成
+   - 新しい認証情報で再設定
+
+2. **Gitの履歴から認証情報を削除**：
+   ```bash
+   git filter-branch --force --index-filter "git rm --cached --ignore-unmatch .clasprc.json creds.json" --prune-empty --tag-name-filter cat -- --all
+   git push origin --force
+   ```
+
+3. **全てのチームメンバーに通知**：誤ってコミットされた認証情報について通知し、古いブランチを使用しないよう依頼
+
+### ベストプラクティス
+
+- 各開発者は自分自身のOAuth認証情報を作成・使用する
+- 本番環境用の認証情報は、安全な認証情報管理サービスを使用して保存・共有する
+- 開発環境と本番環境で異なるクライアントIDを使用する
+
+これらの注意事項を守ることで、セキュリティリスクを最小限に抑え、GoogleのAPIを安全に利用できます。
 
