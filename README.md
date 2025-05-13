@@ -69,7 +69,13 @@ Cursorのルールファイル（例：`.cursor/rules/basic/00_master_rules.mdc`
 
 ### 1. レポジトリをClone
 
+   ```bash
+   git clone https://github.com/miyatti777/calendar_app.git 
+   ```
+で、ファイル配置
+
 ※ AIPMシステム使っている人はScriptsフォルダのなかにいれるのおすすめ
+※自分でフォルダ作る人は以下のコマンドで、ファイルをDLしてきていれてください
 
 アプリフォルダ作成
    ```bash
@@ -77,7 +83,6 @@ Cursorのルールファイル（例：`.cursor/rules/basic/00_master_rules.mdc`
    cd calendar_app
    ```
 
-その後、git clone {repository}で、ファイル配置
 
 ### 2. 環境セットアップ
 
