@@ -9,7 +9,7 @@ YEAR_MONTH=$(date +%Y%m)
 mkdir -p "Flow/$YEAR_MONTH/$TODAY"
 
 # カレンダーイベント取得
-(cd scripts/calendar_clasp && clasp run getDateEvents -p '["'"$TODAY"'"]' > "../../Flow/$YEAR_MONTH/$TODAY/calendar_events.json")
+(cd scripts/calendar_app && clasp run getDateEvents -p '["'"$TODAY"'"]' > "../../Flow/$YEAR_MONTH/$TODAY/calendar_events.json")
 
 # JSONファイルの内容を表示
 cat "Flow/$YEAR_MONTH/$TODAY/calendar_events.json" | grep -v "Running in dev mode" 
